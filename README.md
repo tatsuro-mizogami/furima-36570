@@ -7,8 +7,10 @@
 | nickname           | string | null: false               |
 | email              | string | null: false, unique: true |
 | encrypted_password | string | null: false               |
-| name               | string | null: false               |
-| name_kana          | string | null: false               |
+| first_name         | string | null: false               |
+| last_name          | string | null: false               |
+| first_name_kana    | string | null: false               |
+| last_name_kana     | string | null: false               |
 | birthday           | date   | null: false               |
 
 has_many :items
@@ -18,16 +20,20 @@ has_many :orders
 
 | Column             | Type       | Options     |
 | ------------------ | ---------- | ----------- |
-| image              | text       | null: false |
 | item_name          | string     | null: false |
-| explanation        | string     | null: false |
-| price              | string     | null: false |
+| explanation        | text       | null: false |
+| price              | integer    | null: false |
 | user               | references | null: false |
+| category_id        | integer    | null: false |
+| status_id          | integer    | null: false |
+| shipping_burden_id | integer    | null: false |
+| shipping_area_id   | integer    | null: false |
+| days_ship_id       | integer    | null: false |
 
-belongs_to :users
-has_one :orders
+belongs_to :user
+has_one :order
 
-## orders テーブル
+## addresss テーブル
 
 | Column             | Type       | Options                        |
 | ------------------ | ---------- | ------------------------------ |
@@ -36,8 +42,15 @@ has_one :orders
 | block              | string     | null: false                    |
 | building           | string     |                                |
 | tel_number         | string     | null: false                    |
+
+has_one :item
+has_one :user
+has_one :order
+
+## orders
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
 | item               | references | null: false, foreign_key: true |
 | user               | references | null: false, foreign_key: true |
 
-has_one :items
-has_one :users
+has_one :address

@@ -35,15 +35,15 @@ has_one :order
 
 ## addresses テーブル
 
-| Column             | Type       | Options                        |
-| ------------------ | ---------- | ------------------------------ |
-| postcode           | string     | null: false                    |
-| prefecture         | string     | null: false                    |
-| city               | string     | null: false                    |
-| block              | string     | null: false                    |
-| building           | string     |                                |
-| tel_number         | string     | null: false                    |
-| order              | string     | null: false, foreign_key: true |
+| Column                | Type        | Options                        |
+| --------------------- | ----------- | ------------------------------ |
+| postcode              | string      | null: false                    |
+| prefecture.id         | integer     | null: false                    |
+| city                  | string      | null: false                    |
+| block                 | string      | null: false                    |
+| building              | string      |                                |
+| tel_number            | string      | null: false                    |
+| order                 | string      | null: false, foreign_key: true |
 
 belongs to :order
 

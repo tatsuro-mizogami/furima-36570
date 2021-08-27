@@ -54,5 +54,5 @@ belongs to :order
 | user               | references | null: false, foreign_key: true |
 
 has_one :address
-has_one :item
-has_one :user
+belong_to :item
+belong_to :user

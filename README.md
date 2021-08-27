@@ -38,10 +38,12 @@ has_one :order
 | Column             | Type       | Options                        |
 | ------------------ | ---------- | ------------------------------ |
 | postcode           | string     | null: false                    |
+| prefecture         | string     | null: false                    |
 | city               | string     | null: false                    |
 | block              | string     | null: false                    |
 | building           | string     |                                |
 | tel_number         | string     | null: false                    |
+| user_id            | string     | null: false                    |
 
 has_one :item
 has_one :user

@@ -91,7 +91,6 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Last name 全角文字を使用してください')
       end
-
     end
   end
 end

@@ -33,6 +33,21 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("Password can't be blank")
       end
+      it '英字のみのパスワードでは登録できない' do
+        @user.password = 'aaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password には英字と数字の両方を含めて設定してください")
+      end
+      it '数字のみのパスワードでは登録できない' do
+        @user.password = '123456'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password には英字と数字の両方を含めて設定してください")
+      end
+      it '全角文字を含むパスワードでは登録できない' do
+        @user.password = 'asd　1233'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password には英字と数字の両方を含めて設定してください")
+      end
       it 'first_nameが空では登録できない' do
         @user.first_name = ''
         @user.valid?
@@ -71,8 +86,8 @@ RSpec.describe User, type: :model do
         expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
       it 'passwordが5文字以下では登録できない' do
-        @user.password = 'aaaaa'
-        @user.password_confirmation = 'aaaaa'
+        @user.password = '11aaa'
+        @user.password_confirmation = '11aaa'
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
@@ -86,10 +101,20 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('First name 全角文字を使用してください')
       end
+      it 'first_name_kanaが全角カタカナでなければ登録できない' do
+        @user.first_name_kana = 'いとう'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name kana カタカナで入力してください')
+      end
       it 'last_nameが全角でなければ登録できない' do
         @user.last_name = 'junichi'
         @user.valid?
         expect(@user.errors.full_messages).to include('Last name 全角文字を使用してください')
+      end
+      it 'last_name_kanaが全角カタカナでなければ登録できない' do
+        @user.last_name_kana = 'じゅんいち'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Last name kana カタカナで入力してください')
       end
     end
   end

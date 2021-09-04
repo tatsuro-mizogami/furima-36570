@@ -6,7 +6,7 @@ class Item < ApplicationRecord
   belongs_to :shipping_burden
   belongs_to :status
   belongs_to :user
-  # has_one :order
+  has_one :order
   has_one_attached :image
 
   validates :item_name, :explanation, :price, :image, presence: true

@@ -43,7 +43,7 @@ has_one :order
 | block                 | string      | null: false                    |
 | building              | string      |                                |
 | tel_number            | string      | null: false                    |
-| order                 | string      | null: false, foreign_key: true |
+| order                 | references      | null: false, foreign_key: true |
 
 belongs to :order
 

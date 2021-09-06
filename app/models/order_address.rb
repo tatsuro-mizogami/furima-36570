@@ -1,13 +1,15 @@
 class OrderAddress
   include ActiveModel::Model
-  # attr_accessor :user_id, :order, :item_id, :postcode, :city, :prefecture_id, :block, :building, :tel_number
+  attr_accessor :user_id, :item_id, :postcode, :city, :prefecture_id, :block, :building, :tel_number
 
-  with_options presence: true do
-    # validates :user_id
+  # with_options presence: true do
+  #   validates :user_id
   
-  end
+  # end
 
   def save
-    # 各テーブルにデータを保存する処理を書く
+    # binding.pry
+    order =Order.create(user_id: user_id, item_id: item_id)
+    Address.create(postcode: postcode, city: city, prefecture_id: prefecture_id, block: block, building: building, tel_number: tel_number, order_id: order.id)
   end
 end

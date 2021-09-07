@@ -1,27 +1,37 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_user!
+  before_action :move_to_root
+
   def index
     @item = Item.find(params[:item_id])
+    @order_address = OrderAddress.new
   end
   
   def new
     @order_address = OrderAddress.new
   end
-
+  
   def create
-    # binding.pry
     @order_address = OrderAddress.new(order_params)
-    @order_address.valid?
-    @order_address.save
-    redirect_to root_path
-
-  end
-
-  private
-
-  def order_params
     # binding.pry
-    params.permit(:item_id, :postcode, :prefecture_id, :city, :block, :building, :tel_number, :order_id).merge(user_id: current_user.id)
+    if @order_address.valid?
+       @order_address.save
+      redirect_to root_path
+    else
+      render :index
+    end
   end
-
+  
+  private
+  
+  def order_params
+    params.require(:order_address).permit(:postcode, :prefecture_id, :city, :block, :building, :tel_number, :order_id).merge(user_id: current_user.id, item_id: params[:item_id])
+  end
+  
+  def move_to_root
+    @item = Item.find(params[:item_id])
+    if current_user == @item.user
+      redirect_to root_path
+    end
+  end
 end

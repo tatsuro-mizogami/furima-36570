@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe OrderAddress, type: :model do
   before do
+    @item = FactoryBot.build(:item)
     @user = FactoryBot.create(:user)
-    @order_address = FactoryBot.build(:order_address, user_id: @user)
+    @order_address = FactoryBot.build(:order_address, user_id: @user, item_id: @item)
   end
 
   describe '配送先の保存' do
@@ -53,6 +54,11 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Tel number is invalid')
       end
+      it '電話番号が12桁以上では保存できないこと' do
+        @order_address.tel_number = 112233445566
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include('Tel number is invalid')
+      end
       it '電話番号が全角数値では保存できないこと' do
         @order_address.tel_number = '１１２２３３４４５５'
         @order_address.valid?
@@ -62,6 +68,16 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.token = nil
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'ユーザーが紐付いていなければ購入できない' do
+        @order_address.user_id = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("User can't be blank")
+      end
+      it 'itemが紐付いていなければ購入できない' do
+        @order_address.item_id = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Item can't be blank")
       end
     end
   end

@@ -7,5 +7,7 @@ FactoryBot.define do
     building { '東京ハイツ' }
     block { '歯科' }
     token { 'tok_abcdefghijk00000000000000000' }
+    item
+    user
   end
 end

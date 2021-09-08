@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe OrderAddress, type: :model do
   before do
     @user = FactoryBot.create(:user)
-    @order_address = FactoryBot.build(:order_address,user_id: @user)
+    @order_address = FactoryBot.build(:order_address, user_id: @user)
   end
 
   describe '配送先の保存' do
@@ -49,17 +49,20 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("Tel number can't be blank")
       end
       it '電話番号が9桁以下では保存できないこと' do
-        @order_address.tel_number = 112233445
+        @order_address.tel_number = 112_233_445
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Tel number is invalid")
+        expect(@order_address.errors.full_messages).to include('Tel number is invalid')
       end
       it '電話番号が全角数値では保存できないこと' do
         @order_address.tel_number = '１１２２３３４４５５'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Tel number is invalid")
-
+        expect(@order_address.errors.full_messages).to include('Tel number is invalid')
+      end
+      it 'tokenが空では保存できないこと' do
+        @order_address.token = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Token can't be blank")
       end
     end
   end
 end
-
